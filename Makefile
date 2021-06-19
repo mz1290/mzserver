@@ -1,6 +1,14 @@
 SHELL :=	/bin/sh
 PWD :=		$(shell pwd)
 
+
+container-server: image
+	docker container run \
+	-it --rm \
+	-p 8080:8080 \
+	-v $(PWD):/home \
+	mzserverdev /bin/ash -c "make compile-server; ./server"
+
 run-client-server: compile-client compile-server docker-compose.yaml
 	docker-compose up -d && \
 	docker exec -it mzserver_client_1 /bin/ash
@@ -17,13 +25,6 @@ compile-client: client.c
 compile-server: server.c
 	gcc -O0 -g server.c -o server
 
-container-server: image
-	docker container run \
-	-it --rm \
-	-p 8080:8080 \
-	-v $(PWD):/home \
-	mzserverdev /bin/ash
-
 container: image
 	docker container run \
 	-it --rm \
@@ -39,4 +40,6 @@ stop: docker-compose.yaml
 
 clean:
 	rm -rf client server \
-	docker-compose down
+	docker-compose down \
+	client.dSYM \
+	server.dSYM
