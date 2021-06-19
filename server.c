@@ -62,7 +62,8 @@ main(void)
 
 		write(new_socket , hello , strlen(hello));
 
-		printf("------------------Hello message sent-------------------\n");
+		printf("------------------Hello message sent-------------------"
+		    "\n");
 
 		/* Close the socket */
 		close(new_socket);

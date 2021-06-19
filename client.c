@@ -10,7 +10,7 @@
 
 
 int
-main(void)
+main(int argc, char *argv[])
 {
 	int sock;
 	struct sockaddr_in serv_addr = {0};
@@ -18,6 +18,11 @@ main(void)
 	char *hello = "Hello from client";
 	long valread;
 	char buffer[BUFFER_SIZE] = {0};
+
+	if(argc != 2) {
+		printf("Usage: ./client <ip address of server>");
+	}
+
 
 	/* Create TCP socket */
 	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -28,7 +33,7 @@ main(void)
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = htons(PORT);
 	// Convert IPv4 and IPv6 addresses from text to binary form
-	if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
+	if(inet_pton(AF_INET, argv[1], &serv_addr.sin_addr) <= 0) {
 		printf("Invalid address or address not supported\n");
 		return (1);
 	}

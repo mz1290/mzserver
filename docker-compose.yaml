@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+
+  client:
+    image: mzserverdev
+    command: tail -F anything
+    volumes:
+    - .:/home
+
+  server:
+    image: mzserverdev
+    command: make run-server
+    volumes:
+    - .:/home
