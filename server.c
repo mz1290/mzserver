@@ -46,7 +46,8 @@ main(void)
 		int new_socket;
 		long valread;
 		char buffer[BUFFER_SIZE] = {0};
-		char *hello = "Hello from server";
+		char *hello = "HTTP/1.1 200 OK\nContent-Type: text/plain\n"
+		    "Content-Length: 12\n\nHello world!";
 
 		printf("\n+++++++ Waiting for new connection ++++++++\n\n");
 

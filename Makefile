@@ -1,7 +1,7 @@
 SHELL :=	/bin/sh
 PWD :=		$(shell pwd)
 
-run: compile-client compile-server docker-compose.yaml
+run-client-server: compile-client compile-server docker-compose.yaml
 	docker-compose up -d && \
 	docker exec -it mzserver_client_1 /bin/ash
 
@@ -17,11 +17,18 @@ compile-client: client.c
 compile-server: server.c
 	gcc -O0 -g server.c -o server
 
+container-server: image
+	docker container run \
+	-it --rm \
+	-p 8080:8080 \
+	-v $(PWD):/home \
+	mzserverdev /bin/ash
+
 container: image
 	docker container run \
 	-it --rm \
 	-v $(PWD):/home \
-	mzserverdev sh
+	mzserverdev /bin/ash
 
 image: Dockerfile
 	docker image build \

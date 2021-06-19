@@ -11,5 +11,7 @@ services:
   server:
     image: mzserverdev
     command: make run-server
+    ports:
+    - 8080:8080
     volumes:
     - .:/home
